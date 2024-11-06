@@ -12,3 +12,5 @@ declare type OWNED_CART_NOT_FOUND_Error = {
     };
   };
 };
+
+type SelectedOption = Record<string, string>;

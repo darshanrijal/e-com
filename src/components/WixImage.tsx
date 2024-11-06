@@ -6,9 +6,9 @@ type WixImageProps = Omit<
   ImgHTMLAttributes<HTMLImageElement>,
   "src" | "width" | "height" | "alt"
 > & {
-  mediaIdentifier?: string;
+  mediaIdentifier: string | undefined;
   placeholder?: string;
-  alt?: string | null;
+  alt?: string | null | undefined;
 } & (
     | {
         scaleToFill?: true;
@@ -19,31 +19,22 @@ type WixImageProps = Omit<
         scaleToFill: false;
       }
   );
-
 export const WixImage = ({
   mediaIdentifier,
   placeholder = "/placeholder.png",
   alt,
-  scaleToFill,
   ...props
 }: WixImageProps) => {
-  let imageUrl: string;
-
-  if (mediaIdentifier) {
-    if (scaleToFill || scaleToFill === undefined) {
-      const { width, height } = props as { width: number; height: number };
-      imageUrl = wixMedia.getScaledToFillImageUrl(
-        mediaIdentifier,
-        width,
-        height,
-        {},
-      );
-    } else {
-      imageUrl = wixMedia.getImageUrl(mediaIdentifier).url;
-    }
-  } else {
-    imageUrl = placeholder;
-  }
+  const imageUrl = mediaIdentifier
+    ? props.scaleToFill || props.scaleToFill === undefined
+      ? wixMedia.getScaledToFillImageUrl(
+          mediaIdentifier,
+          props.width,
+          props.height,
+          {},
+        )
+      : wixMedia.getImageUrl(mediaIdentifier).url
+    : placeholder;
 
   return <img src={imageUrl} alt={alt || ""} {...props} />;
 };
