@@ -8,3 +8,13 @@ export function cn(...inputs: ClassValue[]) {
 export async function sleep(delay: number = 0) {
   return new Promise((r) => setTimeout(r, delay));
 }
+
+export const formatCurrency = (
+  price: number | string = 0,
+  currency: string = "NPR",
+) =>
+  Intl.NumberFormat("en", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(Number(price));
