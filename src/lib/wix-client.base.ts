@@ -29,6 +29,6 @@ export const getWixClient = () =>
       files,
     },
     auth: OAuthStrategy({
-      clientId: env.NEXT_PUBLIC_BASE_URL,
+      clientId: env.NEXT_PUBLIC_WIX_CLIENT_ID,
     }),
   });
