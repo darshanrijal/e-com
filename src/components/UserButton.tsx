@@ -6,12 +6,25 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
+import {
+  Check,
+  LogInIcon,
+  LogOutIcon,
+  Monitor,
+  Moon,
+  Sun,
+  UserIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 interface UserButtonProps {
   loggedInMember: members.Member | null;
@@ -20,6 +33,7 @@ interface UserButtonProps {
 
 export const UserButton = ({ loggedInMember, className }: UserButtonProps) => {
   const { login, logout } = useAuth();
+  const { setTheme, theme } = useTheme();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,6 +60,32 @@ export const UserButton = ({ loggedInMember, className }: UserButtonProps) => {
             <DropdownMenuSeparator />
           </>
         )}
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <Monitor className="mr-2 size-4" />
+            Theme
+          </DropdownMenuSubTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                <Monitor className="mr-2 size-4" />
+                System default
+                {theme === "system" && <Check className="ms-2 size-4" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                <Sun className="mr-2 size-4" />
+                Light
+                {theme === "light" && <Check className="ms-2 size-4" />}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <Moon className="mr-2 size-4" />
+                Moon
+                {theme === "dark" && <Check className="ms-2 size-4" />}
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
 
         {loggedInMember ? (
           <>

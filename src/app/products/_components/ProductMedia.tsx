@@ -86,14 +86,16 @@ function MediaPreview({ isSelected, mediaItem, onSelect }: MediaPreviewProps) {
         "relative cursor-pointer bg-secondary",
         isSelected && "outline outline-1 outline-primary",
       )}
+      onClick={onSelect}
     >
-      <WixImage
-        mediaIdentifier={imageUrl || resolvedThumbnailUrl}
-        alt={mediaItem.image?.altText || mediaItem.video?.files?.[0].altText}
-        width={100}
-        height={100}
-        onMouseEnter={onSelect}
-      />
+      {imageUrl || resolvedThumbnailUrl ? (
+        <WixImage
+          mediaIdentifier={imageUrl || resolvedThumbnailUrl}
+          alt={mediaItem.image?.altText || mediaItem.video?.files?.[0].altText}
+          width={100}
+          height={100}
+        />
+      ) : null}
 
       {resolvedThumbnailUrl && (
         <span className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black">

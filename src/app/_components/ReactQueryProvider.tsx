@@ -25,7 +25,7 @@ function getQueryClient() {
   }
 }
 
-export function Providers(props: { children: React.ReactNode }) {
+function ReactQueryProvider(props: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
   return (
@@ -35,3 +35,5 @@ export function Providers(props: { children: React.ReactNode }) {
     </QueryClientProvider>
   );
 }
+
+export { ReactQueryProvider };

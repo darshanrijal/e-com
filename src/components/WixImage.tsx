@@ -19,6 +19,7 @@ type WixImageProps = Omit<
         scaleToFill: false;
       }
   );
+
 export const WixImage = ({
   mediaIdentifier,
   placeholder = "/placeholder.png",
