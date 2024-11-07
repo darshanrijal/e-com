@@ -1,7 +1,7 @@
 import { createClient, OAuthStrategy, Tokens } from "@wix/sdk";
 import { env } from "./env";
 import { NextRequest, NextResponse } from "next/server";
-import { WIX_SESSION_COOKIE } from "./constansts";
+import { WIX_SESSION_COOKIE } from "@/constansts";
 
 const wixClient = createClient({
   auth: OAuthStrategy({
@@ -27,9 +27,7 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  req.cookies.set(WIX_SESSION_COOKIE, JSON.stringify(sessionTokens));
-
-  const res = NextResponse.next({ request: req });
+  const res = NextResponse.next();
 
   res.cookies.set(WIX_SESSION_COOKIE, JSON.stringify(sessionTokens), {
     maxAge: 60 * 60 * 24 * 14,
