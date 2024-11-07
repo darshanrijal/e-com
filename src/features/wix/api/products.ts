@@ -7,14 +7,17 @@ interface QueryProductsFilter {
   sort?: ProductsSort;
   skip?: number;
   limit?: number;
+  q?: string;
 }
 type ProductsSort = "last_updated" | "price_asc" | "price_desc";
 export async function queryProducts(
   wixClient: WixClient,
-  { sort = "last_updated", collectionIds, limit, skip }: QueryProductsFilter,
+  { sort = "last_updated", collectionIds, limit, skip, q }: QueryProductsFilter,
 ) {
   let query = wixClient.products.queryProducts();
-
+  if (q) {
+    query = query.startsWith("name", q);
+  }
   const collectionIdsArray = collectionIds
     ? Array.isArray(collectionIds)
       ? collectionIds
