@@ -1,5 +1,4 @@
-import { getWixClient, WixClient } from "@/lib/wix-client.base";
-import { Limelight } from "next/font/google";
+import { WixClient } from "@/lib/wix-client.base";
 import { cache } from "react";
 
 interface QueryProductsFilter {
@@ -8,11 +7,21 @@ interface QueryProductsFilter {
   skip?: number;
   limit?: number;
   q?: string;
+  priceMin?: number;
+  priceMax?: number;
 }
-type ProductsSort = "last_updated" | "price_asc" | "price_desc";
+export type ProductsSort = "last_updated" | "price_asc" | "price_desc";
 export async function queryProducts(
   wixClient: WixClient,
-  { sort = "last_updated", collectionIds, limit, skip, q }: QueryProductsFilter,
+  {
+    sort = "last_updated",
+    collectionIds,
+    limit,
+    skip,
+    q,
+    priceMax,
+    priceMin,
+  }: QueryProductsFilter,
 ) {
   let query = wixClient.products.queryProducts();
   if (q) {
@@ -39,6 +48,12 @@ export async function queryProducts(
     case "last_updated":
       query = query.descending("lastUpdated");
       break;
+  }
+  if (priceMin) {
+    query = query.ge("priceData.price", priceMin);
+  }
+  if (priceMax) {
+    query = query.le("priceData.price", priceMax);
   }
   if (limit) {
     query = query.limit(limit);
