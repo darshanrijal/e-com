@@ -79,7 +79,7 @@ export const UserButton = ({ loggedInMember, className }: UserButtonProps) => {
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 size-4" />
-                Moon
+                Dark
                 {theme === "dark" && <Check className="ms-2 size-4" />}
               </DropdownMenuItem>
             </DropdownMenuSubContent>
