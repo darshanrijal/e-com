@@ -65,3 +65,18 @@ export async function updateCartItemQuantity(
 export async function removeCartItem(wixClient: WixClient, productId: string) {
   return wixClient.currentCart.removeLineItemsFromCurrentCart([productId]);
 }
+
+export async function clearCart(wixClient: WixClient) {
+  try {
+    return await wixClient.currentCart.deleteCurrentCart();
+  } catch (error) {
+    if (
+      (error as unknown as OWNED_CART_NOT_FOUND_Error).details.applicationError
+        .code === "OWNED_CART_NOT_FOUND"
+    ) {
+      return;
+    } else {
+      throw error;
+    }
+  }
+}
