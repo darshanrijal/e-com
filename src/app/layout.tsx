@@ -5,6 +5,8 @@ import { Navbar } from "./_components/navbar";
 import Footer from "./_components/footer";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import { Providers } from "./_components/ReactQueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +27,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, "antialiased")}>
         <NextTopLoader showSpinner={false} color="hsl(var(--primary))" />
-        <Navbar />
-        {children}
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
+        <Toaster />
       </body>
     </html>
   );

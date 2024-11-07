@@ -109,6 +109,8 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
             product={product}
             selectedOptions={selectedOptions}
             quantity={quantity}
+            disabled={availabeQuantityExceeded || quantity < 1}
+            className="w-full"
           />
         ) : (
           <>Out of stock</>
@@ -128,7 +130,7 @@ export const ProductDetails = ({ product }: ProductDetailsProps) => {
                       dangerouslySetInnerHTML={{
                         __html: section.description || "",
                       }}
-                      className="prose dark:prose-invert text-sm text-muted-foreground"
+                      className="prose text-sm text-muted-foreground dark:prose-invert"
                     />
                   </AccordionContent>
                 </AccordionItem>

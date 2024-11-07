@@ -18,7 +18,7 @@ export async function getCart(wixClient: WixClient) {
   }
 }
 
-interface AddToCartValues {
+export interface AddToCartValues {
   product: products.Product;
   selectedOptions: SelectedOption;
   quantity: number;
