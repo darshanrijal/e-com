@@ -1,6 +1,7 @@
 import { products } from "@wix/stores";
 import { Button, ButtonProps } from "./ui/button";
 import { addToCart } from "@/features/wix/api/cart";
+import { wixBrowserClient } from "@/lib/wix-client-browser";
 
 interface AddToCartButtonProps extends ButtonProps {
   product: products.Product;
@@ -16,7 +17,9 @@ export const AddToCartButton = ({
 }: AddToCartButtonProps) => {
   return (
     <Button
-      onClick={() => addToCart({ product, quantity, selectedOptions })}
+      onClick={() =>
+        addToCart(wixBrowserClient, { product, quantity, selectedOptions })
+      }
       {...props}
     >
       Add to cart

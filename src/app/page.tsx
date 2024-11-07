@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCollectionBySlug } from "@/features/wix/api/collections";
 import { queryProducts } from "@/features/wix/api/products";
+import { getWixServerClient } from "@/lib/wix-client-server";
 import { getWixClient } from "@/lib/wix-client.base";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -48,13 +49,16 @@ export default function Home() {
 }
 
 async function FeaturedProducts() {
-  const wixClient = getWixClient();
-  const collection = await getCollectionBySlug("featured-products");
+  const wixServerClient = await getWixServerClient();
+  const collection = await getCollectionBySlug(
+    wixServerClient,
+    "featured-products",
+  );
   if (!collection?._id) {
     return null;
   }
 
-  const featuredProducts = await queryProducts({
+  const featuredProducts = await queryProducts(wixServerClient, {
     collectionIds: collection._id,
   });
   if (!featuredProducts.items.length) {

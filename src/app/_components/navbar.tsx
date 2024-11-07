@@ -1,10 +1,12 @@
 import Logo from "@/assets/logo.png";
 import { getCart } from "@/features/wix/api/cart";
+import { getWixServerClient } from "@/lib/wix-client-server";
 import Image from "next/image";
 import Link from "next/link";
 
 export const Navbar = async () => {
-  const cart = await getCart();
+  const wixServerClient = await getWixServerClient();
+  const cart = await getCart(wixServerClient);
   const totalQuantity =
     cart?.lineItems.reduce((acc, curr) => acc + (curr.quantity || 0), 0) || 0;
   return (
