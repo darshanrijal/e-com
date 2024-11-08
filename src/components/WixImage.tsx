@@ -37,5 +37,7 @@ export const WixImage = ({
       : wixMedia.getImageUrl(mediaIdentifier).url
     : placeholder;
 
-  return <img src={imageUrl} alt={alt || ""} {...props} />;
+  return (
+    <img src={imageUrl} alt={alt || ""} {...props} suppressHydrationWarning />
+  );
 };
