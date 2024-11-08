@@ -2,7 +2,8 @@ import { getLoggedInMember } from "@/features/wix/api/members";
 import { getWixServerClient } from "@/lib/wix-client-server";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MemberInfoForm } from "../_components/MemberInfoForm";
+import { MemberInfoForm } from "./_components/MemberInfoForm";
+import { Orders } from "./_components/Orders";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -21,6 +22,7 @@ export default async function Page() {
         Your profile
       </h1>
       <MemberInfoForm member={member} />
+      <Orders />
     </main>
   );
 }
