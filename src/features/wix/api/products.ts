@@ -125,3 +125,8 @@ export async function getRelatedProducts(
 
   return productResult.items;
 }
+
+export async function getProductById(wixClient: WixClient, productId: string) {
+  const result = await wixClient.products.getProduct(productId);
+  return result.product;
+}

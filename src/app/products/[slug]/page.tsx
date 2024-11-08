@@ -1,14 +1,22 @@
+import { Product } from "@/components/Product";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CreateProductReviewButton } from "@/features/review/components/CreateProductReviewButton";
+import { getLoggedInMember } from "@/features/wix/api/members";
 import {
   getProductBySlug,
   getRelatedProducts,
 } from "@/features/wix/api/products";
-import { notFound } from "next/navigation";
-import { ProductDetails } from "../_components/product-details";
-import { Metadata } from "next";
 import { getWixServerClient } from "@/lib/wix-client-server";
+import { products } from "@wix/stores";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Product } from "@/components/Product";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ProductDetails } from "../_components/product-details";
+import {
+  ProductReviews,
+  ProductReviewsLoadingSkeleton,
+} from "../_components/product-reviews";
+import { getProductReviews } from "@/features/review/api/reviews";
 
 export default async function ProductPage({
   params,
@@ -29,6 +37,13 @@ export default async function ProductPage({
       <Suspense fallback={<RelatedProductsLoadingSkeleton />}>
         <RelatedProducts productId={product._id} />
       </Suspense>
+      <hr />
+      <div className="space-y-5">
+        <h2 className="text-2xl font-bold">Buyer reviews</h2>
+        <Suspense fallback={<ProductReviewsLoadingSkeleton />}>
+          <ProductReviewSection product={product} />
+        </Suspense>
+      </div>
     </main>
   );
 }
@@ -92,6 +107,38 @@ function RelatedProductsLoadingSkeleton() {
       {Array.from({ length: 4 }).map((_, i) => (
         <Skeleton key={i} className="h-[26rem] w-full" />
       ))}
+    </div>
+  );
+}
+
+interface ProductReviewSectionSection {
+  product: products.Product;
+}
+async function ProductReviewSection({ product }: ProductReviewSectionSection) {
+  if (!product._id) {
+    return null;
+  }
+  const wixServerClient = await getWixServerClient();
+
+  const loggedInMember = await getLoggedInMember(wixServerClient);
+
+  const existingReview = loggedInMember?.contactId
+    ? (
+        await getProductReviews(wixServerClient, {
+          contactId: loggedInMember.contactId,
+          productId: product._id,
+        })
+      ).items[0]
+    : null;
+
+  return (
+    <div className="space-y-5">
+      <CreateProductReviewButton
+        product={product}
+        loggedInMember={loggedInMember}
+        hasExistingReview={!!existingReview}
+      />
+      <ProductReviews product={product} />
     </div>
   );
 }

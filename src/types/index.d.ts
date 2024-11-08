@@ -24,3 +24,7 @@ declare type BACK_IN_STOCK_NOTIFICATION_REQUEST_ALREADY_EXIST = {
 };
 
 type SelectedOption = Record<string, string>;
+
+type ReviewMediaUploadURLRouteResponse = {
+  uploadUrl: string;
+};
